@@ -1,7 +1,8 @@
 import {
+    CHANGED_TASK_FORM,
     FETCH_COUNTER_ERROR,
     FETCH_COUNTER_REQUEST,
-    FETCH_COUNTER_SUCCESS
+    FETCH_COUNTER_SUCCESS, FETCH_TASKS_ERROR, FETCH_TASKS_REQUEST, FETCH_TASKS_SUCCESS
 } from "./actionTypes"
 import axios from '../axios-api';
 
@@ -42,4 +43,32 @@ export const sendCounter = value => {
             dispatch(fetchCounterError(e));
         }
     };
-}
+};
+
+const fetchTasksRequest = () => {
+    return {type: FETCH_TASKS_REQUEST};
+};
+
+const fetchTasksSuccess = value => {
+    return {type: FETCH_TASKS_SUCCESS, value};
+};
+
+const fetchTasksError = error => {
+    return {type: FETCH_TASKS_ERROR, error};
+};
+
+export const fetchTasks = () => {
+    return async dispatch => {
+        dispatch(fetchTasksRequest());
+        try {
+            const response = await axios.get('/tasks.json');
+            dispatch(fetchTasksSuccess(response.data));
+        } catch (e) {
+            dispatch(fetchTasksError(e));
+        }
+    };
+};
+
+export const changedTaskForm = (value, name) => {
+    return {type: CHANGED_TASK_FORM, value, name};
+};
