@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './TodoList.css';
 import {useDispatch, useSelector} from "react-redux";
-import {fetchTasks} from "../../store/actions";
+import {changedTaskForm, fetchTasks} from "../../store/actions";
 import TodoItems from "../../components/TodoItems/TodoItems";
 import Form from "../../components/UI/Form/Form";
 
@@ -13,11 +13,18 @@ const TodoList = () => {
     useEffect(() => {
         dispatch(fetchTasks());
     }, [dispatch]);
+
+    const changedTaskFormHandler = e => {
+        const name = e.target.name;
+        const value = e.target.value;
+        dispatch(changedTaskForm(value, name));
+    }
     return (
         <section className="Todo-list">
             <h2>Todo-list</h2>
             <Form
                 task={newTodo.task}
+                changed={e => changedTaskFormHandler(e)}
             />
             {todo && <TodoItems
                 todoItems={todo}
