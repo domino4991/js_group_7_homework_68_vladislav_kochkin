@@ -1,0 +1,24 @@
+.Counter {
+    text-align: center;
+}
+
+.Counter button {
+    margin: 5px;
+    background: #03a9f4;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    color: #eceff1;
+    font-weight: bold;
+    transition: 0.5s;
+    cursor: pointer;
+    outline: none;
+}
+
+.Counter button:disabled {
+    background: #263238;
+}
+
+.Counter button:hover {
+    background: #00bcd4;
+}
