@@ -1,34 +1,39 @@
 import React, {useEffect} from 'react';
 import './TodoList.css';
 import {useDispatch, useSelector} from "react-redux";
-import {changedTaskForm, fetchTasks} from "../../store/actions";
+import {addNewTask, changedTaskForm, deleteTask, fetchTasks, saveDoneTask} from "../../store/actions";
 import TodoItems from "../../components/TodoItems/TodoItems";
 import Form from "../../components/UI/Form/Form";
+import TodoItem from "../../components/TodoItems/TodoItem/TodoItem";
 
 const TodoList = () => {
     const todo = useSelector(state => state.todo);
-    const newTodo = useSelector(state => state.newTodo);
+    const newTask = useSelector(state => state.newTask);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchTasks());
     }, [dispatch]);
 
-    const changedTaskFormHandler = e => {
-        const name = e.target.name;
-        const value = e.target.value;
-        dispatch(changedTaskForm(value, name));
-    }
     return (
         <section className="Todo-list">
             <h2>Todo-list</h2>
             <Form
-                task={newTodo.task}
-                changed={e => changedTaskFormHandler(e)}
+                task={newTask}
+                changed={e => dispatch(changedTaskForm(e))}
+                submit={e => dispatch(addNewTask(newTask, e))}
             />
-            {todo && <TodoItems
-                todoItems={todo}
-            />
+            {todo !== null ?
+            <TodoItems>
+                {todo.map(item => <TodoItem
+                    key={item.id}
+                    id={item.id}
+                    task={item.task}
+                    checked={item.done}
+                    checkedSwitch={() => dispatch(saveDoneTask(item.id, todo))}
+                    clicked={() => dispatch(deleteTask(item.id))}
+                />)}
+            </TodoItems> : <p>Нет задач</p>
             }
         </section>
     );
