@@ -1,0 +1,47 @@
+.Todo-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 10px;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 5px solid #009688;
+    border-radius: 10px;
+    background: rgba(0, 150, 136, 0.1);
+    transition: 0.5s;
+}
+
+.Todo-item.checked {
+    background: rgba(3, 169, 244, 0.1);
+    border-bottom-color: #03a9f4;
+}
+
+.Todo-item__task-box {
+    display: flex;
+    align-items: center;
+}
+
+.Todo-item__done-task {
+    cursor: pointer;
+}
+
+.Todo-item__task {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.Todo-item__delete {
+    justify-self: end;
+    background: #009688;
+    border-radius: 5px;
+    padding: 10px;
+    color: #e3f2fd;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.Todo-item__delete:hover {
+    background: #00bcd4;
+}
