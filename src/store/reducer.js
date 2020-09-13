@@ -10,9 +10,7 @@ const initialState = {
     loading: false,
     error: null,
     todo: null,
-    newTodo: {
-        task: ''
-    }
+    newTask: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -26,12 +24,17 @@ const reducer = (state = initialState, action) => {
         case FETCH_TASKS_ERROR:
             return {...state, loading: false, error: action.error};
         case FETCH_TASKS_SUCCESS:
-            return {...state, loading: false, todo: Object.keys(action.value).map(item => ({
-                    ...item,
+            return {
+                ...state,
+                loading: false,
+                todo: action.tasks !== null ? Object.keys(action.tasks).map(item => ({
+                    ...action.tasks[item],
                     id: item
-                }))}
+                })) : null,
+                newTask: ''
+            }
         case CHANGED_TASK_FORM:
-            return {...state, newTodo: {[action.name]: action.value}}
+            return {...state, newTask: action.value}
         default:
             return state;
     }
