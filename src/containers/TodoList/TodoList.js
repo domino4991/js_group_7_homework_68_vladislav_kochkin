@@ -5,10 +5,12 @@ import {addNewTask, changedTaskForm, deleteTask, fetchTasks, saveDoneTask} from 
 import TodoItems from "../../components/TodoItems/TodoItems";
 import Form from "../../components/UI/Form/Form";
 import TodoItem from "../../components/TodoItems/TodoItem/TodoItem";
+import {Sugar} from "react-preloaders";
 
 const TodoList = () => {
     const todo = useSelector(state => state.todo);
     const newTask = useSelector(state => state.newTask);
+    const loading = useSelector(state => state.loading);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -17,7 +19,8 @@ const TodoList = () => {
 
     return (
         <section className="Todo-list">
-            <h2>Todo-list</h2>
+            <Sugar customLoading={loading}/>
+            <h2 className="Todo-list__title">TO DO list</h2>
             <Form
                 task={newTask}
                 changed={e => dispatch(changedTaskForm(e))}
@@ -25,6 +28,12 @@ const TodoList = () => {
             />
             {todo !== null ?
             <TodoItems>
+                {
+                    loading &&
+                    <div className="preloader">
+                        <Sugar />
+                    </div>
+                }
                 {todo.map(item => <TodoItem
                     key={item.id}
                     id={item.id}
@@ -32,7 +41,7 @@ const TodoList = () => {
                     checked={item.done}
                     checkedSwitch={() => dispatch(saveDoneTask(item.id, todo))}
                     clicked={() => dispatch(deleteTask(item.id))}
-                />)}
+                />).reverse()}
             </TodoItems> : <p>Нет задач</p>
             }
         </section>
