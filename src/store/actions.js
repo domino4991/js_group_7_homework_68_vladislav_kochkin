@@ -1,5 +1,5 @@
 import {
-    CHANGED_TASK_FORM,
+    CHANGED_TASK_FORM, CLOSE_ERROR_MODAL,
     FETCH_COUNTER_ERROR,
     FETCH_COUNTER_REQUEST,
     FETCH_COUNTER_SUCCESS, FETCH_TASKS_ERROR, FETCH_TASKS_REQUEST, FETCH_TASKS_SUCCESS
@@ -117,4 +117,8 @@ export const deleteTask = id => {
             dispatch(fetchTasksError(e));
         }
     };
+};
+
+export const closeModal = () => {
+    return {type: CLOSE_ERROR_MODAL};
 };

@@ -1,5 +1,5 @@
 import {
-    CHANGED_TASK_FORM,
+    CHANGED_TASK_FORM, CLOSE_ERROR_MODAL,
     FETCH_COUNTER_ERROR,
     FETCH_COUNTER_REQUEST,
     FETCH_COUNTER_SUCCESS, FETCH_TASKS_ERROR, FETCH_TASKS_REQUEST, FETCH_TASKS_SUCCESS
@@ -31,10 +31,13 @@ const reducer = (state = initialState, action) => {
                     ...action.tasks[item],
                     id: item
                 })) : null,
-                newTask: ''
+                newTask: '',
+                error: null
             }
         case CHANGED_TASK_FORM:
-            return {...state, newTask: action.value}
+            return {...state, newTask: action.value};
+        case CLOSE_ERROR_MODAL:
+            return {...state, error: null};
         default:
             return state;
     }
