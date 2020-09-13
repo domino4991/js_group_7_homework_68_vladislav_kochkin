@@ -49,8 +49,8 @@ const fetchTasksRequest = () => {
     return {type: FETCH_TASKS_REQUEST};
 };
 
-const fetchTasksSuccess = value => {
-    return {type: FETCH_TASKS_SUCCESS, value};
+const fetchTasksSuccess = tasks => {
+    return {type: FETCH_TASKS_SUCCESS, tasks};
 };
 
 const fetchTasksError = error => {
@@ -69,6 +69,52 @@ export const fetchTasks = () => {
     };
 };
 
-export const changedTaskForm = (value, name) => {
-    return {type: CHANGED_TASK_FORM, value, name};
+export const changedTaskForm = e => {
+    return {type: CHANGED_TASK_FORM, value: e.target.value};
+};
+
+export const addNewTask = (newTask, e) => {
+    e.preventDefault();
+    return async dispatch => {
+        dispatch(fetchTasksRequest());
+        const task = {
+            task: newTask,
+            done: false
+        };
+        try {
+            await axios.post('/tasks.json', task);
+            dispatch(fetchTasks());
+        } catch (e) {
+            dispatch(fetchTasksError(e));
+        }
+    };
+};
+
+export const saveDoneTask = (id, tasks) => {
+    return async dispatch => {
+        dispatch(fetchTasksRequest());
+        const i = tasks.findIndex(t => t.id === id);
+        const putTask = {
+            task: tasks[i].task,
+            done: !tasks[i].done
+        };
+        try {
+            await axios.put(`/tasks/${id}.json`, putTask);
+            dispatch(fetchTasks());
+        } catch (e) {
+            dispatch(fetchTasksError(e));
+        }
+    };
+};
+
+export const deleteTask = id => {
+    return async dispatch => {
+        dispatch(fetchTasksRequest());
+        try {
+            await axios.delete(`/tasks/${id}.json`);
+            dispatch(fetchTasks());
+        } catch (e) {
+            dispatch(fetchTasksError(e));
+        }
+    };
 };
