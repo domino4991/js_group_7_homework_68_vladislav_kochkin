@@ -3,7 +3,7 @@ import './Form.css';
 
 const Form = props => {
     return (
-        <form className="Form">
+        <form className="Form" onSubmit={props.submit}>
             <input
                 className="Form__task-txt"
                 name="task"
