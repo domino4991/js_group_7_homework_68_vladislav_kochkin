@@ -7,7 +7,7 @@ const TodoItem = props => {
             <input
                 type="checkbox"
                 className="Todo-item__done-task"
-                name="done-task"
+                name="done"
                 id={props.id}
                 checked={props.checked}
                 onChange={props.checkedSwitch}
